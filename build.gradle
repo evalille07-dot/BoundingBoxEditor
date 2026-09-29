@@ -253,7 +253,7 @@ license {
 
     excludes(['**/_*.scss', '**/styles.css', '**/testannotations/**/*', '**/testimages/**/*', '**/icons/*'])
 
-    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+    ext.year = '2022'
     ext.author = 'Markus Fleischhacker'
     ext.project = 'Bounding Box Editor'
     ext.email = 'markus.fleischhacker28@gmail.com'

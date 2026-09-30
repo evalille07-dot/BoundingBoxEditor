@@ -177,7 +177,7 @@ public class PVOCSaveStrategy implements ImageAnnotationSaveStrategy {
         List<String> actionTags = new ArrayList<>();
 
         for(String tag : boundingShapeData.getTags()) {
-            String lowerCaseTag = tag.toLowerCase();
+            String lowerCaseTag = tag.toLowerCase(Locale.ROOT);
 
             if(lowerCaseTag.startsWith("pose:")) {
                 poseString = StringUtils.capitalize(lowerCaseTag.substring(5).stripLeading());
@@ -244,7 +244,7 @@ public class PVOCSaveStrategy implements ImageAnnotationSaveStrategy {
         private final double imageWidth;
         private final double imageHeight;
 
-        public XmlElementVisitor(Document document, double imageWidth, double imageHeight) {
+        XmlElementVisitor(Document document, double imageWidth, double imageHeight) {
             this.document = document;
             this.imageWidth = imageWidth;
             this.imageHeight = imageHeight;

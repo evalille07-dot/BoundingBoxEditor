@@ -239,7 +239,7 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
         private final AtomicReference<String> currentFileName;
         private final String annotationFileName;
 
-        public BoundingShapeDataDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
+        BoundingShapeDataDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
                                              AtomicReference<String> currentFileName,
                                              String annotationFileName) {
             this.errorInfoEntries = errorInfoEntries;
@@ -274,7 +274,7 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
         private final AtomicReference<String> currentFileName;
         private final String annotationFileName;
 
-        public ObjectCategoryDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
+        ObjectCategoryDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
                                           AtomicReference<String> currentFileName,
                                           String annotationFileName) {
             this.errorInfoEntries = errorInfoEntries;
@@ -321,7 +321,7 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
         private final AtomicReference<String> currentFileName;
         private final String annotationFileName;
 
-        public BoundsDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
+        BoundsDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
                                   AtomicReference<String> currentFileName, String annotationFileName) {
             this.errorInfoEntries = errorInfoEntries;
             this.currentFileName = currentFileName;
@@ -405,7 +405,7 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
         private final AtomicReference<String> currentFileName;
         private final Set<String> fileNamesToLoad;
 
-        public ImageMetaDataDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
+        ImageMetaDataDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
                                          String annotationFileName, AtomicReference<String> currentFileName,
                                          Set<String> fileNamesToLoad) {
             this.errorInfoEntries = errorInfoEntries;
@@ -444,7 +444,7 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
         private final List<IOErrorInfoEntry> errorInfoEntries;
         private final String annotationFileName;
 
-        public ImageAnnotationDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
+        ImageAnnotationDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
                                            String annotationFileName) {
             this.errorInfoEntries = errorInfoEntries;
             this.annotationFileName = annotationFileName;
@@ -498,7 +498,7 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
         private final Map<String, ObjectCategory> nameToObjectCategoryMap;
         private final Map<String, Integer> boundingShapeCountPerCategory;
 
-        public BoundingBoxDataDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
+        BoundingBoxDataDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
                                            AtomicReference<String> currentFileName, String annotationFileName,
                                            Map<String, ObjectCategory> nameToObjectCategoryMap,
                                            Map<String, Integer> boundingShapeCountPerCategory) {
@@ -569,7 +569,7 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
         private final Map<String, ObjectCategory> nameToObjectCategoryMap;
         private final Map<String, Integer> boundingShapeCountPerCategory;
 
-        public BoundingPolygonDataDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
+        BoundingPolygonDataDeserializer(List<IOErrorInfoEntry> errorInfoEntries,
                                                AtomicReference<String> currentFileName,
                                                String annotationFileName,
                                                Map<String, ObjectCategory> nameToObjectCategoryMap,
@@ -666,7 +666,7 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
     private static class ImageAnnotationListDeserializer implements JsonDeserializer<List<ImageAnnotation>> {
         final DoubleProperty progress;
 
-        public ImageAnnotationListDeserializer(DoubleProperty progress) {
+        ImageAnnotationListDeserializer(DoubleProperty progress) {
             this.progress = progress;
         }
 

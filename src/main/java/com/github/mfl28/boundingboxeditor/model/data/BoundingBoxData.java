@@ -149,15 +149,14 @@ public class BoundingBoxData extends BoundingShapeData {
         if(this == o) {
             return true;
         }
-        if(!(o instanceof BoundingBoxData)) {
+        if(!(o instanceof BoundingBoxData that)) {
             return false;
         }
         if(!super.equals(o)) {
             return false;
         }
-        BoundingBoxData that = (BoundingBoxData) o;
 
-        if(relativeBoundsInImage == that.relativeBoundsInImage) {
+        if(relativeBoundsInImage.equals(that.relativeBoundsInImage)) {
             return true;
         }
 

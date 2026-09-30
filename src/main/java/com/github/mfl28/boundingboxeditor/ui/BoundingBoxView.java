@@ -133,7 +133,8 @@ public class BoundingBoxView extends Rectangle implements
 
     @Override
     public int hashCode() {
-        return Objects.hash(boundingShapeViewData, getX(), getY(), getWidth(), getHeight());
+        // Must not depend on mutable state: JavaFX keeps scene-graph children in hash-based sets.
+        return BoundingBoxView.class.hashCode();
     }
 
     @Override
@@ -142,11 +143,10 @@ public class BoundingBoxView extends Rectangle implements
             return true;
         }
 
-        if(!(obj instanceof BoundingBoxView)) {
+        if(!(obj instanceof BoundingBoxView other)) {
             return false;
         }
 
-        BoundingBoxView other = (BoundingBoxView) obj;
 
         return Objects.equals(boundingShapeViewData, other.boundingShapeViewData)
                 && MathUtils.doubleAlmostEqual(getX(), other.getX()) &&
@@ -392,37 +392,38 @@ public class BoundingBoxView extends Rectangle implements
             visibleProperty().bind(rectangle.visibleProperty().and(rectangle.selectedProperty()));
 
             switch(compassPoint) {
-                case NW:
+                case NW -> {
                     xProperty().bind(rectangleX.subtract(SIDE_LENGTH / 2));
                     yProperty().bind(rectangleY.subtract(SIDE_LENGTH / 2));
-                    break;
-                case N:
+                }
+                case N -> {
                     xProperty().bind(rectangleX.add(rectangleW.subtract(SIDE_LENGTH).divide(2)));
                     yProperty().bind(rectangleY.subtract(SIDE_LENGTH / 2));
-                    break;
-                case NE:
+                }
+                case NE -> {
                     xProperty().bind(rectangleX.add(rectangleW).subtract(SIDE_LENGTH / 2));
                     yProperty().bind(rectangleY.subtract(SIDE_LENGTH / 2));
-                    break;
-                case E:
+                }
+                case E -> {
                     xProperty().bind(rectangleX.add(rectangleW).subtract(SIDE_LENGTH / 2));
                     yProperty().bind(rectangleY.add(rectangleH.subtract(SIDE_LENGTH).divide(2)));
-                    break;
-                case SE:
+                }
+                case SE -> {
                     xProperty().bind(rectangleX.add(rectangleW).subtract(SIDE_LENGTH / 2));
                     yProperty().bind(rectangleY.add(rectangleH).subtract(SIDE_LENGTH / 2));
-                    break;
-                case S:
+                }
+                case S -> {
                     xProperty().bind(rectangleX.add(rectangleW.subtract(SIDE_LENGTH).divide(2)));
                     yProperty().bind(rectangleY.add(rectangleH).subtract(SIDE_LENGTH / 2));
-                    break;
-                case SW:
+                }
+                case SW -> {
                     xProperty().bind(rectangleX.subtract(SIDE_LENGTH / 2));
                     yProperty().bind(rectangleY.add(rectangleH).subtract(SIDE_LENGTH / 2));
-                    break;
-                case W:
+                }
+                case W -> {
                     xProperty().bind(rectangleX.subtract(SIDE_LENGTH / 2));
                     yProperty().bind(rectangleY.add(rectangleH.subtract(SIDE_LENGTH).divide(2)));
+                }
             }
         }
 
@@ -440,30 +441,14 @@ public class BoundingBoxView extends Rectangle implements
             });
 
             switch(compassPoint) {
-                case NW:
-                    setOnMouseDragged(this::handleMouseDraggedNW);
-                    break;
-                case N:
-                    setOnMouseDragged(this::handleMouseDraggedN);
-                    break;
-                case NE:
-                    setOnMouseDragged(this::handleMouseDraggedNE);
-                    break;
-                case E:
-                    setOnMouseDragged(this::handleMouseDraggedE);
-                    break;
-                case SE:
-                    setOnMouseDragged(this::handleMouseDraggedSE);
-                    break;
-                case S:
-                    setOnMouseDragged(this::handleMouseDraggedS);
-                    break;
-                case SW:
-                    setOnMouseDragged(this::handleMouseDraggedSW);
-                    break;
-                case W:
-                    setOnMouseDragged(this::handleMouseDraggedW);
-                    break;
+                case NW -> setOnMouseDragged(this::handleMouseDraggedNW);
+                case N -> setOnMouseDragged(this::handleMouseDraggedN);
+                case NE -> setOnMouseDragged(this::handleMouseDraggedNE);
+                case E -> setOnMouseDragged(this::handleMouseDraggedE);
+                case SE -> setOnMouseDragged(this::handleMouseDraggedSE);
+                case S -> setOnMouseDragged(this::handleMouseDraggedS);
+                case SW -> setOnMouseDragged(this::handleMouseDraggedSW);
+                case W -> setOnMouseDragged(this::handleMouseDraggedW);
             }
         }
 

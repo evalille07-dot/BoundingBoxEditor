@@ -212,7 +212,7 @@ public class MainView extends BorderPane implements View {
 
         errorDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("errorDescription"));
         errorDescriptionColumn.setSortable(false);
-        errorTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        errorTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
         errorTable.setItems(FXCollections.observableArrayList(ioResult.getErrorTableEntries()));
         errorTable.getSortOrder().add(errorSourceColumn);
@@ -224,31 +224,26 @@ public class MainView extends BorderPane implements View {
                                        .count();
 
         switch(ioResult.getOperationType()) {
-            case ANNOTATION_IMPORT:
+            case ANNOTATION_IMPORT ->
                 displayAnnotationImportInfoAlert(ioResult, errorTable, numErrorEntries, owner);
-                break;
-            case ANNOTATION_SAVING:
+            case ANNOTATION_SAVING ->
                 MainView.displayInfoAlert(ANNOTATION_SAVING_ERROR_REPORT_TITLE,
                                           "There were errors while saving annotations.",
                                           numErrorEntries + " image-annotation file"
                                                   + (numErrorEntries > 1 ? "s" : "") + " could not be saved.",
                                           errorTable, owner);
-                break;
-            case IMAGE_METADATA_LOADING:
+            case IMAGE_METADATA_LOADING ->
                 displayImageMetadataLoadingInfoAlert(ioResult, errorTable, numErrorEntries, owner);
-                break;
-            case BOUNDING_BOX_PREDICTION:
+            case BOUNDING_BOX_PREDICTION ->
                 MainView.displayInfoAlert("Bounding Box Prediction Error Report",
                                           "There were errors while performing the prediction",
                                           "Bounding box predictions for " + numErrorEntries + " image file" +
                                                   (numErrorEntries > 1 ? "s" : "") + " could not be loaded.",
                                           errorTable, owner);
-                break;
-            case MODEL_NAME_FETCHING:
+            case MODEL_NAME_FETCHING ->
                 MainView.displayInfoAlert("Model Fetching Error Report",
                                           "There were errors while fetching model names from the server",
                                           null, errorTable, owner);
-                break;
         }
     }
 
@@ -532,8 +527,8 @@ public class MainView extends BorderPane implements View {
     public Optional<Window> getSettingsWindow() {
         return Window.getWindows()
                      .stream()
-                     .filter(window -> window instanceof Stage
-                             && ((Stage) window).getTitle().equals(SettingsDialogView.SETTINGS_TITLE))
+                     .filter(window -> window instanceof Stage stage
+                             && stage.getTitle().equals(SettingsDialogView.SETTINGS_TITLE))
                      .findFirst();
     }
 

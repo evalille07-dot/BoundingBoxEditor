@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -126,8 +127,7 @@ public class ImageMetaData {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof ImageMetaData) {
-            ImageMetaData other = (ImageMetaData) obj;
+        if(obj instanceof ImageMetaData other) {
             return Objects.equals(fileName, other.fileName) && Objects.equals(details, other.details);
         }
         return false;
@@ -158,7 +158,7 @@ public class ImageMetaData {
                 try {
                     reader.setInput(imageStream);
 
-                    final String imageFormatName = reader.getFormatName().toLowerCase();
+                    final String imageFormatName = reader.getFormatName().toLowerCase(Locale.ROOT);
 
                     if(!supportedImageFormats.contains(imageFormatName)) {
                         throw new UnsupportedImageFileException(UNSUPPORTED_IMAGE_FORMAT_ERROR_MESSAGE);
@@ -205,11 +205,10 @@ public class ImageMetaData {
                 return true;
             }
 
-            if(!(o instanceof ImageMetaDataDetails)) {
+            if(!(o instanceof ImageMetaDataDetails that)) {
                 return false;
             }
 
-            ImageMetaDataDetails that = (ImageMetaDataDetails) o;
 
             return Double.compare(that.imageWidth, imageWidth) == 0 &&
                     Double.compare(that.imageHeight, imageHeight) == 0 &&

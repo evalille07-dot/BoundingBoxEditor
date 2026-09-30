@@ -74,7 +74,24 @@ class TagScrollPaneView extends ScrollPane implements View {
      * @param newTags the tags to display
      */
     void setTags(ObservableList<String> newTags) {
+        final ObservableList<String> oldTags = tags.get();
+
+        if(oldTags != null) {
+            oldTags.removeListener(tagsListener);
+            tagFlowPane.getChildren().removeIf(TagBox.class::isInstance);
+        }
+
         tags.set(newTags);
+
+        if(newTags != null) {
+            tagFlowPane.getChildren().addAll(0, newTags.stream().map(TagBox::new).collect(Collectors.toList()));
+            newTags.addListener(tagsListener);
+            tagInputField.setDisable(false);
+        } else {
+            // If no list of tags is registered, the tag-input field is disabled. This is the case
+            // when no bounding-shape is currently selected.
+            tagInputField.setDisable(true);
+        }
     }
 
     private void fixBlurryText() {
@@ -100,29 +117,6 @@ class TagScrollPaneView extends ScrollPane implements View {
             if(!text.isEmpty() && !tags.get().contains(text)) {
                 tags.get().add(text);
                 tagInputField.clear();
-            }
-        });
-
-        tags.addListener((observable, oldValue, newValue) -> {
-            if(oldValue == newValue) {
-                // Listeners have to be updated exactly once after a new tag-list was set. If
-                // the tag-list reference has not changed nothing need to be done.
-                return;
-            }
-
-            if(oldValue != null) {
-                oldValue.removeListener(tagsListener);
-                tagFlowPane.getChildren().removeIf(TagBox.class::isInstance);
-            }
-
-            if(newValue != null) {
-                tagFlowPane.getChildren().addAll(0, newValue.stream().map(TagBox::new).collect(Collectors.toList()));
-                newValue.addListener(tagsListener);
-                tagInputField.setDisable(false);
-            } else {
-                // If no list of tags is registered, the tag-input field is disabled. This is the case
-                // when no bounding-shape is currently selected.
-                tagInputField.setDisable(true);
             }
         });
     }

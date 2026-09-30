@@ -20,15 +20,26 @@ package com.github.mfl28.boundingboxeditor.model.io;
 
 import com.github.mfl28.boundingboxeditor.model.data.BoundingBoxData;
 import com.github.mfl28.boundingboxeditor.model.data.BoundingPolygonData;
+import com.github.mfl28.boundingboxeditor.model.data.ImageAnnotation;
+import com.github.mfl28.boundingboxeditor.model.data.ImageAnnotationData;
+import com.github.mfl28.boundingboxeditor.model.data.ImageMetaData;
 import com.github.mfl28.boundingboxeditor.model.data.ObjectCategory;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.BoundingBox;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Tag("unit")
 class ModelIoTests {
@@ -109,4 +120,32 @@ class ModelIoTests {
 
     }
 
+
+    @Test
+    void onPVOCSaveWithTurkishDefaultLocale_ShouldRecognizeUpperCaseTags(@TempDir Path saveDirectory)
+            throws IOException {
+        final Locale defaultLocale = Locale.getDefault();
+
+        try {
+            Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+
+            ObjectCategory category = new ObjectCategory("foo", Color.AQUA);
+            BoundingBoxData boundingBoxData = new BoundingBoxData(category, new BoundingBox(0.1, 0.1, 0.5, 0.5),
+                                                                  List.of("DIFFICULT", "ACTION: SITTING"));
+            ImageAnnotation imageAnnotation =
+                    new ImageAnnotation(new ImageMetaData("image.jpg", "folder", 100, 100, 3),
+                                        List.of(boundingBoxData));
+            ImageAnnotationData annotationData = new ImageAnnotationData(List.of(imageAnnotation),
+                                                                         Map.of("foo", 1), Map.of("foo", category));
+
+            new PVOCSaveStrategy().save(annotationData, saveDirectory, new SimpleDoubleProperty(0));
+
+            String savedAnnotation = Files.readString(saveDirectory.resolve("image_jpg_A.xml"));
+
+            Assertions.assertTrue(savedAnnotation.contains("<difficult>1</difficult>"), savedAnnotation);
+            Assertions.assertTrue(savedAnnotation.contains("<sitting>1</sitting>"), savedAnnotation);
+        } finally {
+            Locale.setDefault(defaultLocale);
+        }
+    }
 }

@@ -126,11 +126,10 @@ public class ImageFileListView extends ListView<ImageFileListView.FileInfo> impl
                 return true;
             }
 
-            if(!(o instanceof FileInfo)) {
+            if(!(o instanceof FileInfo fileInfo)) {
                 return false;
             }
 
-            FileInfo fileInfo = (FileInfo) o;
 
             return Objects.equals(file, fileInfo.file) &&
                     Objects.equals(hasAssignedBoundingBoxes, fileInfo.hasAssignedBoundingBoxes);

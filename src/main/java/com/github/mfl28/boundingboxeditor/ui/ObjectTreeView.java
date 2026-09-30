@@ -103,8 +103,8 @@ public class ObjectTreeView extends TreeView<Object> implements View {
     public void setToggleIconStateForSelectedObjectTreeItem(boolean toggleState) {
         final TreeItem<Object> selectedTreeItem = getSelectionModel().getSelectedItem();
 
-        if(selectedTreeItem instanceof IconToggleable) {
-            ((IconToggleable) selectedTreeItem).setIconToggledOn(toggleState);
+        if(selectedTreeItem instanceof IconToggleable iconToggleable) {
+            iconToggleable.setIconToggledOn(toggleState);
         }
     }
 
@@ -119,12 +119,12 @@ public class ObjectTreeView extends TreeView<Object> implements View {
     }
 
     void setToggleIconStateForAllTreeItemsExcept(TreeItem<Object> exemption, boolean toggleState) {
-        if(exemption instanceof IconToggleable) {
-            final boolean selectedItemToggledOn = ((IconToggleable) exemption).isIconToggledOn();
+        if(exemption instanceof IconToggleable iconToggleable) {
+            final boolean selectedItemToggledOn = iconToggleable.isIconToggledOn();
 
             setToggleIconStateForAllTreeItems(toggleState);
 
-            ((IconToggleable) exemption).setIconToggledOn(selectedItemToggledOn);
+            iconToggleable.setIconToggledOn(selectedItemToggledOn);
         }
     }
 
@@ -316,10 +316,10 @@ public class ObjectTreeView extends TreeView<Object> implements View {
     private void detachTreeItemFromParent(TreeItem<Object> itemToDetach) {
         TreeItem<Object> itemParent = itemToDetach.getParent();
 
-        if(itemParent instanceof ObjectCategoryTreeItem
-                && itemToDetach instanceof BoundingShapeTreeItem) {
-            ((ObjectCategoryTreeItem) itemParent)
-                    .detachBoundingShapeTreeItemChild((BoundingShapeTreeItem) itemToDetach);
+        if(itemParent instanceof ObjectCategoryTreeItem objectCategoryTreeItem
+                && itemToDetach instanceof BoundingShapeTreeItem boundingShapeTreeItem) {
+            objectCategoryTreeItem
+                    .detachBoundingShapeTreeItemChild(boundingShapeTreeItem);
         } else {
             itemParent.getChildren().remove(itemToDetach);
         }
@@ -333,8 +333,8 @@ public class ObjectTreeView extends TreeView<Object> implements View {
     private void attachTreeItemToTarget(TreeItem<Object> treeItemToAttach, TreeItem<Object> targetItem) {
         ObjectCategory draggedItemCategory;
 
-        if(treeItemToAttach instanceof ObjectCategoryTreeItem) {
-            draggedItemCategory = ((ObjectCategoryTreeItem) treeItemToAttach).getObjectCategory();
+        if(treeItemToAttach instanceof ObjectCategoryTreeItem objectCategoryTreeItem) {
+            draggedItemCategory = objectCategoryTreeItem.getObjectCategory();
         } else if(treeItemToAttach instanceof BoundingShapeTreeItem) {
             draggedItemCategory =
                     ((BoundingShapeViewable) treeItemToAttach.getValue()).getViewData().getObjectCategory();

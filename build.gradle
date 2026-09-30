@@ -29,10 +29,12 @@ plugins {
     id 'io.miret.etienne.sass' version '1.4.1'
 }
 
-group 'com.github.mfl28'
-version '2.3.0'
+group = 'com.github.mfl28'
+version = '2.3.0'
 
-sourceCompatibility = 1.11
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
 
 repositories {
     mavenCentral()
@@ -152,8 +154,10 @@ tasks.named("dependencyUpdates").configure {
   }
 }
 
+def sassOutputRoot = layout.buildDirectory.dir('generated/sass')
+
 compileSass {
-    outputDir = project.file ("${buildDir}/resources/main/stylesheets/css")
+    outputDir = sassOutputRoot.get().dir('stylesheets/css').asFile
     destPath = "."
     sourceDir = project.file ("${projectDir}/src/main/resources/stylesheets/scss")
     style = expanded
@@ -161,6 +165,8 @@ compileSass {
     noErrorCss ()
     sourceMap = none
 }
+
+sourceSets.main.resources.srcDir(files(sassOutputRoot).builtBy(compileSass))
 
 compileJava {
     options.compilerArgs.addAll(['-Xlint:all', '-Xlint:-requires-automatic'])
@@ -190,7 +196,7 @@ jlink {
 
     forceMerge 'jakarta'
 
-    imageZip = project.file("${buildDir}/distributions/boundingboxeditor-${javafx.platform.classifier}.zip")
+    imageZip = layout.buildDirectory.file("distributions/boundingboxeditor-${javafx.platform.classifier}.zip").get().asFile
 
     jpackage {
         installerOptions += [

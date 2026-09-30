@@ -18,22 +18,25 @@
  */
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
-    id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'org.beryx.jlink' version '2.25.0'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'org.javamodularity.moduleplugin' version '2.1.0'
+    id 'io.github.ben-manes.versions' version '0.64.0'
+    id 'org.beryx.jlink' version '4.1.1'
     id 'jacoco'
-    id 'net.ltgt.errorprone' version '2.0.2'
-    id 'org.sonarqube' version '3.4.0.2513'
-    id 'org.ysb33r.cloudci' version '3.0.0'
+    id 'net.ltgt.errorprone' version '5.1.1'
+    id 'org.sonarqube' version '7.5.0.8588'
+    id 'org.ysb33r.cloudci' version '4.0.1'
     id 'com.github.hierynomus.license' version '0.16.1'
-    id 'io.miret.etienne.sass' version '1.4.1'
+    id 'io.miret.etienne.sass' version '1.6.0'
 }
 
 group = 'com.github.mfl28'
 version = '2.3.0'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
 }
 
 repositories {
@@ -43,6 +46,7 @@ repositories {
 dependencies {
     // Junit (Unit testing)
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // TestFx UI TesTing // https://mvnrepository.com/artifact/org.testfx/testfx-junit5
     testImplementation('org.testfx:testfx-junit5:4.0.16-alpha') {
@@ -196,34 +200,34 @@ jlink {
 
     forceMerge 'jakarta'
 
-    imageZip = layout.buildDirectory.file("distributions/boundingboxeditor-${javafx.platform.classifier}.zip").get().asFile
+    imageZip = layout.buildDirectory.file("distributions/boundingboxeditor-${javafx.platform.classifier}.zip")
 
     jpackage {
-        installerOptions += [
-                '--app-version', version,
+        installerOptions.addAll([
+                '--app-version', version.toString(),
                 '--copyright', 'Copyright 2022, Markus Fleischhacker',
                 '--description', 'Graphical image annotation application',
                 '--license-file', 'LICENSE',
                 '--vendor', 'Markus Fleischhacker',
-        ]
+        ])
 
         if(org.gradle.internal.os.OperatingSystem.current().windows) {
-            installerOptions += [
+            installerOptions.addAll([
                     '--win-per-user-install',
                     '--win-dir-chooser',
                     '--win-menu',
                     '--win-menu-group', 'Bounding Box Editor',
                     '--win-shortcut'
-            ]
+            ])
             icon = 'src/main/resources/icons/app_icon.ico'
             installerType = 'exe'
         } else if(org.gradle.internal.os.OperatingSystem.current().linux) {
-            installerOptions += [
+            installerOptions.addAll([
                     '--resource-dir', 'build/jpackage/BoundingBoxEditor/lib',
                     '--linux-shortcut',
                     '--linux-menu-group', 'Graphics',
                     '--linux-deb-maintainer', 'markus.fleischhacker28@gmail.com'
-            ]
+            ])
             icon = 'src/main/resources/icons/app_icon.png'
         } else if(org.gradle.internal.os.OperatingSystem.current().macOsX) {
             icon = 'src/main/resources/icons/app_icon.icns'
@@ -236,11 +240,11 @@ jlink {
     }
 }
 
-task dist {
+tasks.register('dist') {
     dependsOn clean, jlinkZip
 }
 
-sonarqube {
+sonar {
     properties {
         property "sonar.projectKey", "mfl28_BoundingBoxEditor"
         property "sonar.organization", "mfl28"

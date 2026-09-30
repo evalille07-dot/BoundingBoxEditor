@@ -25,6 +25,7 @@ import com.github.mfl28.boundingboxeditor.model.io.restclients.ModelEntry;
 import com.github.mfl28.boundingboxeditor.model.io.restclients.TorchServeRestClient;
 import com.github.mfl28.boundingboxeditor.model.io.results.IOErrorInfoEntry;
 import com.google.gson.JsonSyntaxException;
+import javafx.application.Platform;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
@@ -648,7 +649,7 @@ class TorchServeClientTest extends BoundingBoxEditorTestBase {
     }
 
     private void setUpAndVerifyManagementServerSettings(FxRobot robot, TestInfo testinfo) {
-        mainView.getInferenceSettingsView().getManagementAddressField().clear();
+        Platform.runLater(() -> mainView.getInferenceSettingsView().getManagementAddressField().clear());
         WaitForAsyncUtils.waitForFxEvents();
 
         robot.clickOn(mainView.getInferenceSettingsView().getManagementAddressField())
@@ -658,7 +659,7 @@ class TorchServeClientTest extends BoundingBoxEditorTestBase {
         verifyThat(mainView.getInferenceSettingsView().getManagementAddressField(),
                    TextInputControlMatchers.hasText(MANAGEMENT_SERVER), saveScreenshot(testinfo));
 
-        mainView.getInferenceSettingsView().getManagementPortField().clear();
+        Platform.runLater(() -> mainView.getInferenceSettingsView().getManagementPortField().clear());
         WaitForAsyncUtils.waitForFxEvents();
 
         robot.clickOn(mainView.getInferenceSettingsView().getManagementPortField())
@@ -670,7 +671,7 @@ class TorchServeClientTest extends BoundingBoxEditorTestBase {
     }
 
     private void setUpAndVerifyInferenceServerSettings(FxRobot robot, TestInfo testinfo) {
-        mainView.getInferenceSettingsView().getInferenceAddressField().clear();
+        Platform.runLater(() -> mainView.getInferenceSettingsView().getInferenceAddressField().clear());
         WaitForAsyncUtils.waitForFxEvents();
 
         robot.clickOn(mainView.getInferenceSettingsView().getInferenceAddressField())
@@ -680,7 +681,7 @@ class TorchServeClientTest extends BoundingBoxEditorTestBase {
         verifyThat(mainView.getInferenceSettingsView().getInferenceAddressField(),
                    TextInputControlMatchers.hasText(INFERENCE_SERVER), saveScreenshot(testinfo));
 
-        mainView.getInferenceSettingsView().getInferencePortField().clear();
+        Platform.runLater(() -> mainView.getInferenceSettingsView().getInferencePortField().clear());
         WaitForAsyncUtils.waitForFxEvents();
 
         robot.clickOn(mainView.getInferenceSettingsView().getInferencePortField())

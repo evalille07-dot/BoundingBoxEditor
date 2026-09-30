@@ -20,6 +20,7 @@ package com.github.mfl28.boundingboxeditor.ui;
 
 import com.github.mfl28.boundingboxeditor.BoundingBoxEditorTestBase;
 import com.github.mfl28.boundingboxeditor.model.data.ImageMetaData;
+import javafx.application.Platform;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
@@ -324,7 +325,7 @@ class ImageFolderOpenedBasicTests extends BoundingBoxEditorTestBase {
 
         // Flush text-field manually
         TextField textField = robot.lookup("#category-input-field").query();
-        textField.setText("");
+        Platform.runLater(() -> textField.setText(""));
         WaitForAsyncUtils.waitForFxEvents();
 
         verifyThat("#category-selector", TableViewMatchers.hasNumRows(1), saveScreenshot(testinfo));

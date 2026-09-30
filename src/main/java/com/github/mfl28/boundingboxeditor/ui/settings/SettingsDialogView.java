@@ -26,6 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
@@ -51,6 +52,7 @@ public class SettingsDialogView extends Dialog<ButtonType> implements View {
         final DialogPane dialogPane = new DialogPane();
         dialogPane.setId(SETTINGS_DIALOG_PANE_ID);
         dialogPane.setContent(settingSplitPane);
+        dialogPane.setMinHeight(Region.USE_PREF_SIZE);
         dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL, ButtonType.APPLY);
         dialogPane.getButtonTypes()
                   .forEach(buttonType -> ((Button) dialogPane.lookupButton(buttonType)).setDefaultButton(false));

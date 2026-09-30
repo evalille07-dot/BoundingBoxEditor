@@ -23,6 +23,7 @@ import com.github.mfl28.boundingboxeditor.model.io.BoundingBoxPredictorConfig;
 import com.github.mfl28.boundingboxeditor.model.io.restclients.BoundingBoxPredictorClientConfig;
 import com.github.mfl28.boundingboxeditor.ui.settings.InferenceSettingsView;
 import com.github.mfl28.boundingboxeditor.ui.settings.UISettingsView;
+import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.hamcrest.Matchers;
@@ -211,7 +212,7 @@ class SettingsTests extends BoundingBoxEditorTestBase {
                    saveScreenshot(testinfo));
 
 
-        inferenceSettingsView.getImageResizeWidthField().clear();
+        Platform.runLater(() -> inferenceSettingsView.getImageResizeWidthField().clear());
         WaitForAsyncUtils.waitForFxEvents();
         robot.clickOn(inferenceSettingsView.getImageResizeWidthField()).write("777");
         WaitForAsyncUtils.waitForFxEvents();
@@ -266,7 +267,7 @@ class SettingsTests extends BoundingBoxEditorTestBase {
         robot.clickOn(inferenceSettingsView.getInferenceEnabledControl());
         WaitForAsyncUtils.waitForFxEvents();
 
-        inferenceSettingsView.getManagementPortField().clear();
+        Platform.runLater(() -> inferenceSettingsView.getManagementPortField().clear());
         WaitForAsyncUtils.waitForFxEvents();
 
         verifyThat(inferenceSettingsView.getSelectModelButton().isDisable(), Matchers.is(true),
@@ -353,7 +354,7 @@ class SettingsTests extends BoundingBoxEditorTestBase {
         WaitForAsyncUtils.waitForFxEvents();
 
         verifyThat(inferenceSettingsView.isVisible(), Matchers.is(true), saveScreenshot(testinfo));
-        inferenceSettingsView.getInferenceAddressField().clear();
+        Platform.runLater(() -> inferenceSettingsView.getInferenceAddressField().clear());
         WaitForAsyncUtils.waitForFxEvents();
 
         timeOutLookUpInStageAndClickOn(robot, settingsStage, "UI", testinfo);

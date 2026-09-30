@@ -165,8 +165,8 @@ public class EditorImagePaneView extends ScrollPane implements View {
      */
     public void setZoomableAndPannable(boolean value) {
         currentBoundingShapes.forEach(viewable -> {
-            if(!(!value && viewable instanceof BoundingPolygonView &&
-                    ((BoundingPolygonView) viewable).isConstructing())) {
+            if(!(!value && viewable instanceof BoundingPolygonView boundingPolygonView &&
+                    boundingPolygonView.isConstructing())) {
                 viewable.getViewData().getBaseShape().setMouseTransparent(value);
             }
         });
@@ -229,8 +229,8 @@ public class EditorImagePaneView extends ScrollPane implements View {
 
         BoundingPolygonView selectedBoundingPolygon;
 
-        if(!(selectedBoundingShape instanceof BoundingPolygonView &&
-                ((BoundingPolygonView) selectedBoundingShape).isConstructing())) {
+        if(!(selectedBoundingShape instanceof BoundingPolygonView boundingPolygonView &&
+                boundingPolygonView.isConstructing())) {
             selectedBoundingPolygon = new BoundingPolygonView(selectedCategory.get());
             selectedBoundingPolygon.setToggleGroup(boundingShapeSelectionGroup);
             selectedBoundingPolygon.setConstructing(true);
@@ -242,7 +242,7 @@ public class EditorImagePaneView extends ScrollPane implements View {
             selectedBoundingPolygon.setVisible(true);
             boundingShapeSelectionGroup.selectToggle(selectedBoundingPolygon);
         } else {
-            selectedBoundingPolygon = (BoundingPolygonView) selectedBoundingShape;
+            selectedBoundingPolygon = boundingPolygonView;
         }
 
         Point2D parentCoordinates = imageView.localToParent(event.getX(), event.getY());

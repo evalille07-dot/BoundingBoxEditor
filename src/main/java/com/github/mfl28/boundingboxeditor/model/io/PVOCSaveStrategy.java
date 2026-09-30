@@ -244,7 +244,7 @@ public class PVOCSaveStrategy implements ImageAnnotationSaveStrategy {
         private final double imageWidth;
         private final double imageHeight;
 
-        public XmlElementVisitor(Document document, double imageWidth, double imageHeight) {
+        XmlElementVisitor(Document document, double imageWidth, double imageHeight) {
             this.document = document;
             this.imageWidth = imageWidth;
             this.imageHeight = imageHeight;

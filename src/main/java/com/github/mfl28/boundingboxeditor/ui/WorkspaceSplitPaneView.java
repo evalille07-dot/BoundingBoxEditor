@@ -174,9 +174,9 @@ class WorkspaceSplitPaneView extends SplitPane implements View {
 
         if(treeItem instanceof ObjectCategoryTreeItem) {
             treeItem.getParent().getChildren().remove(treeItem);
-        } else if(treeItem instanceof BoundingShapeTreeItem) {
+        } else if(treeItem instanceof BoundingShapeTreeItem boundingShapeTreeItem) {
             ObjectCategoryTreeItem parentTreeItem = (ObjectCategoryTreeItem) treeItem.getParent();
-            parentTreeItem.detachBoundingShapeTreeItemChild((BoundingShapeTreeItem) treeItem);
+            parentTreeItem.detachBoundingShapeTreeItemChild(boundingShapeTreeItem);
 
             if(parentTreeItem.getChildren().isEmpty()) {
                 parentTreeItem.getParent().getChildren().remove(parentTreeItem);
@@ -259,10 +259,10 @@ class WorkspaceSplitPaneView extends SplitPane implements View {
               .getBoundingShapeSelectionGroup()
               .selectedToggleProperty()
               .addListener((observable, oldValue, newValue) -> {
-                  if(newValue instanceof BoundingShapeViewable) {
+                  if(newValue instanceof BoundingShapeViewable boundingShapeViewable) {
                       getEditorsSplitPane().getObjectTree()
                                            .getSelectionModel()
-                                           .select(((BoundingShapeViewable) newValue).getViewData().getTreeItem());
+                                           .select(boundingShapeViewable.getViewData().getTreeItem());
                   }
               });
 
@@ -405,7 +405,7 @@ class WorkspaceSplitPaneView extends SplitPane implements View {
 
                 TreeItem<Object> thisItem = cell.getTreeItem();
 
-                if(draggedItem == null || draggedItem == thisItem || thisItem instanceof ObjectCategoryTreeItem) {
+                if(draggedItem == null || draggedItem.equals(thisItem) || thisItem instanceof ObjectCategoryTreeItem) {
                     return;
                 }
 
@@ -430,7 +430,7 @@ class WorkspaceSplitPaneView extends SplitPane implements View {
             cell.setOnDragEntered(event -> {
                 TreeItem<Object> thisItem = cell.getTreeItem();
 
-                if(draggedItem == null || thisItem == null || draggedItem == thisItem
+                if(draggedItem == null || thisItem == null || draggedItem.equals(thisItem)
                         || thisItem instanceof ObjectCategoryTreeItem
                         || thisItem.getChildren().contains(draggedItem)
                         || (draggedItem instanceof ObjectCategoryTreeItem

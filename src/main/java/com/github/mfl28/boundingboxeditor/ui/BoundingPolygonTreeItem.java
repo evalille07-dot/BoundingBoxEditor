@@ -55,11 +55,10 @@ public class BoundingPolygonTreeItem extends BoundingShapeTreeItem {
             return true;
         }
 
-        if(!(obj instanceof BoundingPolygonTreeItem)) {
+        if(!(obj instanceof BoundingPolygonTreeItem other)) {
             return false;
         }
 
-        BoundingPolygonTreeItem other = (BoundingPolygonTreeItem) obj;
 
         return id == other.id && getValue().equals(other.getValue()) && getChildren().equals(other.getChildren());
     }

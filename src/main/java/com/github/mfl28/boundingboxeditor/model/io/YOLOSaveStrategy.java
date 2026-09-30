@@ -114,8 +114,8 @@ public class YOLOSaveStrategy implements ImageAnnotationSaveStrategy {
             for(int i = 0; i < boundingShapeDataList.size() - 1; ++i) {
                 BoundingShapeData boundingShapeData = boundingShapeDataList.get(i);
 
-                if(boundingShapeData instanceof BoundingBoxData) {
-                    fileWriter.write(createBoundingBoxDataEntry((BoundingBoxData) boundingShapeData));
+                if(boundingShapeData instanceof BoundingBoxData boundingBoxData) {
+                    fileWriter.write(createBoundingBoxDataEntry(boundingBoxData));
                     fileWriter.newLine();
                 }
             }
@@ -123,8 +123,8 @@ public class YOLOSaveStrategy implements ImageAnnotationSaveStrategy {
             if(!boundingShapeDataList.isEmpty()) {
                 BoundingShapeData lastShapeData = boundingShapeDataList.get(boundingShapeDataList.size() - 1);
 
-                if(lastShapeData instanceof BoundingBoxData) {
-                    fileWriter.write(createBoundingBoxDataEntry((BoundingBoxData) lastShapeData));
+                if(lastShapeData instanceof BoundingBoxData boundingBoxData) {
+                    fileWriter.write(createBoundingBoxDataEntry(boundingBoxData));
                 }
             }
         }

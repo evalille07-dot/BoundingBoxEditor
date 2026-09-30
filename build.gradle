@@ -119,7 +119,7 @@ javafx {
 test {
     useJUnitPlatform()
 
-    jvmArgs = ['-Dtestfx.robot=awt', '-Dprism.forceGPU=true']
+    jvmArgs = ['-Dtestfx.robot=awt', '-Dprism.forceGPU=true', '--enable-native-access=ALL-UNNAMED']
     maxHeapSize = '3072m'
 
     moduleOptions {

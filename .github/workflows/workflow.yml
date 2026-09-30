@@ -164,7 +164,7 @@ jobs:
         run: ./gradlew --info --stacktrace build -x test
       - name: Test setup
         run: |
-          "/Library/Application Support/VMware Tools/vmware-resolutionSet" $TEST_SCREEN_WIDTH $TEST_SCREEN_HEIGHT
+          system_profiler SPDisplaysDataType
       - name: Test
         id: test
         run: ./gradlew --info --stacktrace test

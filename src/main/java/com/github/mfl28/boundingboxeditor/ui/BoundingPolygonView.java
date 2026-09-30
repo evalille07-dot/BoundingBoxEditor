@@ -158,7 +158,8 @@ public class BoundingPolygonView extends Polygon implements
 
     @Override
     public int hashCode() {
-        return Objects.hash(boundingShapeViewData, pointsInImage);
+        // Must not depend on mutable state: JavaFX keeps scene-graph children in hash-based sets.
+        return BoundingPolygonView.class.hashCode();
     }
 
     @Override

@@ -133,7 +133,8 @@ public class BoundingBoxView extends Rectangle implements
 
     @Override
     public int hashCode() {
-        return Objects.hash(boundingShapeViewData, getX(), getY(), getWidth(), getHeight());
+        // Must not depend on mutable state: JavaFX keeps scene-graph children in hash-based sets.
+        return BoundingBoxView.class.hashCode();
     }
 
     @Override

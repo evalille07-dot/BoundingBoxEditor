@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -258,7 +259,7 @@ public class PVOCLoadStrategy implements ImageAnnotationLoadStrategy {
                 String poseValue = tagElement.getTextContent();
 
                 if(poseValue != null && !poseValue.equalsIgnoreCase("unspecified")) {
-                    boxDataParseResult.getTags().add("pose: " + poseValue.toLowerCase());
+                    boxDataParseResult.getTags().add("pose: " + poseValue.toLowerCase(Locale.ROOT));
                 }
             }
             case "truncated" -> {

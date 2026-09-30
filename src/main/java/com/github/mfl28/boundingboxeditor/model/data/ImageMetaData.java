@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -157,7 +158,7 @@ public class ImageMetaData {
                 try {
                     reader.setInput(imageStream);
 
-                    final String imageFormatName = reader.getFormatName().toLowerCase();
+                    final String imageFormatName = reader.getFormatName().toLowerCase(Locale.ROOT);
 
                     if(!supportedImageFormats.contains(imageFormatName)) {
                         throw new UnsupportedImageFileException(UNSUPPORTED_IMAGE_FORMAT_ERROR_MESSAGE);

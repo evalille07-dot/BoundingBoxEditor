@@ -32,8 +32,6 @@ plugins {
 group 'com.github.mfl28'
 version '2.3.0'
 
-sourceCompatibility = 1.11
-
 repositories {
     mavenCentral()
 }
@@ -71,7 +69,7 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.1'
 
     // Gradle plugin to use the error-prone compiler https://github.com/tbroyer/gradle-errorprone-plugin
-    errorprone 'com.google.errorprone:error_prone_core:2.15.0'
+    errorprone "com.google.errorprone:error_prone_core:${errorproneVersion}"
 
     // Google GSON https://github.com/google/gson
     implementation 'com.google.code.gson:gson:2.9.1'
@@ -99,7 +97,7 @@ dependencies {
 }
 
 javafx {
-    version = '18.0.2'
+    version = javafxVersion
     modules = ['javafx.controls', 'javafx.swing']
 }
 
@@ -178,10 +176,12 @@ application {
 }
 
 java {
+    toolchain { languageVersion = JavaLanguageVersion.of(25) }
     modularity.inferModulePath = true
 }
 
 jlink {
+    javaHome = javaToolchains.launcherFor(java.toolchain).get().metadata.installationPath.asFile.absolutePath
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
         name = 'BoundingBoxEditor'

@@ -116,6 +116,10 @@ test {
     jvmArgs = ['-Dtestfx.robot=awt', '-Dprism.forceGPU=true']
     maxHeapSize = '3072m'
 
+    def mockitoAgentJar = configurations.mockitoAgent
+    jvmArgumentProviders.add({ ["-javaagent:${mockitoAgentJar.singleFile}".toString()] } as CommandLineArgumentProvider)
+
+    dependsOn compileSass
     finalizedBy jacocoTestReport
 }
 
@@ -163,7 +167,12 @@ compileSass {
     noCharset ()
     noErrorCss ()
     sourceMap = none
+    mustRunAfter processResources
 }
+
+// compileSass writes into the main resources directory, so every consumer of the main output must run after it.
+tasks.named('classes') { dependsOn compileSass }
+tasks.named('compileTestJava') { dependsOn compileSass }
 
 // Gradle only infers the module path for jars that declare a module name. Some dependencies (e.g. Jersey 3.0.x)
 // are plain jars that the module descriptor requires via their file-name-derived automatic module name, so the
@@ -207,6 +216,7 @@ tasks.named('run', JavaExec) {
     modulePathArgs.patchModuleFiles.from(sourceSets.main.output.resourcesDir)
     jvmArgumentProviders.add(modulePathArgs)
     classpath = files()
+    dependsOn compileSass
 }
 
 jar {

@@ -591,8 +591,8 @@ public class JSONLoadStrategy implements ImageAnnotationLoadStrategy {
                                                                                       BOUNDING_POLYGON_SERIALIZED_NAME,
                                                                                       annotationFileName,
                                                                                       currentFileName.get());
-            context.deserialize(json.getAsJsonObject().get(OBJECT_CATEGORY_SERIALIZED_NAME),
-                                ObjectCategory.class);
+            final ObjectCategory unused = context.deserialize(json.getAsJsonObject().get(OBJECT_CATEGORY_SERIALIZED_NAME),
+                                                              ObjectCategory.class);
 
             if(parsedObjectCategory.isEmpty()) {
                 return null;

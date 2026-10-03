@@ -77,10 +77,8 @@ Please refer to the [User Manual](https://github.com/mfl28/BoundingBoxEditor/wik
 After having created annotations for your images, you can use the saved bounding boxes as ground-truths in the training and evaluation of neural networks in order to perform object-detection tasks. How this can be done for any kind of labeled objects using Python and the [Pytorch](https://pytorch.org/) deep learning library is shown exemplarily in the [Humpback Whale Fluke Detection - Jupyter notebook](https://nbviewer.jupyter.org/github/mfl28/MachineLearning/blob/master/notebooks/Humpback_Whale_Fluke_Detection.ipynb) which you can find in my [Machine Learning repo](https://github.com/mfl28/MachineLearning).
 
 ## How to build the application
-The project uses [Gradle](https://gradle.org/) as build-system and ships a Gradle wrapper (Gradle 9.8.0), so no separate Gradle installation is needed.
-You will need a Java JDK version 25 installed on your system, e.g. [Eclipse Temurin 25](https://adoptium.net/temurin/releases/?version=25). The build uses a
-[Gradle Java toolchain](https://docs.gradle.org/current/userguide/toolchains.html) for Java 25: Gradle uses a matching locally installed JDK and otherwise downloads one automatically
-(via the [Foojay toolchain resolver](https://github.com/gradle/foojay-toolchains)). Gradle itself also needs to be started with a JDK version 17 or newer.
+The project uses [Gradle](https://gradle.org/) as build-system.
+You will need to have Gradle version 5+ and a Java JDK version 11+ installed on your system, e.g. from [OpenJDK](https://openjdk.java.net/). 
 After cloning the repository into a folder on your machine you may build the application from the root folder by opening a command line and using:
 ```bash
 gradlew build # Add "-x test" to skip the UI-tests.
@@ -98,25 +96,12 @@ gradlew run
 ```
 
 ## How to run the tests
-The project comes equipped with automatic UI-tests which use [TestFX](https://github.com/TestFX/TestFX) and the [JUnit](https://junit.org/) testing frameworks. Due to some used functionality in the implemented tests it is (currently) not possible to run the tests in headless mode.
-On Linux machines without a display (e.g. CI servers) you can run them inside a virtual framebuffer with a window manager, e.g. `Xvfb :10 -screen 0 1920x1080x24 & fluxbox -display :10 &` followed by `DISPLAY=:10 ./gradlew test`.
+The project comes equipped with automatic UI-tests which use [TestFX](https://github.com/TestFX/TestFX) and the [JUnit 5](https://junit.org/junit5/) testing frameworks. Due to some used functionality in the implemented tests it is (currently) not possible to run the tests in headless mode.
 
 To run the tests, use :
 ```bash
 gradlew test
 ```
-
-## How to build runtime images and installers
-To create a modular runtime image of the application (using [jlink](https://openjdk.org/jeps/282)) and package it as a zip-file, use:
-```bash
-gradlew jlinkZip # Output: build/distributions/boundingboxeditor-<platform>.zip
-```
-To create a native installer for your current OS (using [jpackage](https://openjdk.org/jeps/392)), use:
-```bash
-gradlew jpackage # Output: build/jpackage
-```
-By default this creates an `.exe` installer on Windows, a `.dmg` on macOS and both `.rpm` and `.deb` packages on Linux. A single installer type can be selected using
-e.g. `gradlew jpackage -PinstallerType=deb`. Creating Linux installers requires `fakeroot` and `binutils` (for `.deb`) and `rpm` (for `.rpm`) to be installed.
 
 ## How to build the latest Linux image and installers using Docker
 First build the Docker image from the cloned repo's root directory using:
@@ -146,11 +131,11 @@ docker container cp bbeditor:/artifacts .
 * [Gson](https://github.com/google/gson) (used for JSON serialization & deserialization)
 * [Apache Commons](https://commons.apache.org/) (used for ListOrderedMap data structure and String/Iterator utilities)
 * [TestFX](https://github.com/TestFX/TestFX) (used for the tests)
-* [JUnit](https://junit.org/) (used for the tests)
-* [Mockito](https://site.mockito.org/) (used for mocking in the tests)
+* [JUnit 5](https://junit.org/junit5/) (used for the tests)
 * [Jacoco](https://www.jacoco.org/jacoco/) (used for creating code coverage results)
 * [sass-gradle-plugin](https://github.com/EtienneMiret/sass-gradle-plugin) (used to compile .scss style-files into [JavaFX supported] .css files)
 * [Badass JLink Plugin](https://github.com/beryx/badass-jlink-plugin) (used to create modular runtime images of the application)
+* [Gradle Modules Plugin](https://github.com/java9-moduqlarity/gradle-modules-plugin) (used to run the tests on the classpath)
 * [Feather Icons](https://feathericons.com/)
 * [Nord Color-Palette](https://github.com/arcticicestudio/nord)
 * [Unsplash](https://unsplash.com/) (used as source for test- & demo-images)

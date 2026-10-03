@@ -37,7 +37,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -84,9 +83,9 @@ public class ImageFileListView extends ListView<ImageFileListView.FileInfo> impl
 
                 if(newValue != null && newValue.size() <= IMAGE_CACHE_SIZE) {
                     // Triggers loading of the new images into the cache.
-                    final Map<String, Image> unused = imageCache.getAll(newValue.stream()
-                                                                                .map(fileInfo -> fileInfo.getFile().toURI().toString())
-                                                                                .collect(Collectors.toList()));
+                    imageCache.getAll(newValue.stream()
+                                              .map(fileInfo -> fileInfo.getFile().toURI().toString())
+                                              .collect(Collectors.toList()));
                 }
             }
         });

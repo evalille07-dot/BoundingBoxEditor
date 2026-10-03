@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25-jdk-noble AS builder-base
+FROM adoptopenjdk:14-jdk-hotspot AS builder-base
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       dos2unix \

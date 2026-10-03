@@ -133,7 +133,7 @@ public class BoundingBoxView extends Rectangle implements
 
     @Override
     public int hashCode() {
-        return Objects.hash(boundingShapeViewData, getX(), getY(), getWidth(), getHeight());
+        return BoundingBoxView.class.hashCode();
     }
 
     @Override

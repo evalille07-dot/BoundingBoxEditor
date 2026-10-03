@@ -158,7 +158,7 @@ public class BoundingPolygonView extends Polygon implements
 
     @Override
     public int hashCode() {
-        return Objects.hash(boundingShapeViewData, pointsInImage);
+        return BoundingPolygonView.class.hashCode();
     }
 
     @Override
